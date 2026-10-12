@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>FishSense - Fish Detection</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f6f8;
+            text-align: center;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            width: 600px;
+            max-width: 90%;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #1565c0;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin: 20px;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #1565c0;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0d47a1;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .result p {
+            font-size: 18px;
+        }
+
+        img {
+            max-width: 350px;
+            max-height: 300px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>FishSense</h1>
+
+    <h2>Fish Species & Freshness Detection</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="fish_image"
+            accept="image/*"
+            required
+        >
+
+        <br>
+
+        <button type="submit">
+            Detect Fish
+        </button>
+
+    </form>
+
+
+    {% if image_path %}
+
+        <div class="result">
+
+            <h2>Uploaded Fish Image</h2>
+
+            <img src="{{ image_path }}" alt="Fish Image">
+
+        </div>
+
+    {% endif %}
+
+
+    {% if species_result %}
+
+        <div class="result">
+
+            <h2>Species Result</h2>
+
+            <p>
+                <strong>Species:</strong>
+                {{ species_result }}
+            </p>
+
+            <p>
+                <strong>Confidence:</strong>
+                {{ "%.2f"|format(species_confidence) }}%
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if freshness_result %}
+
+        <div class="result">
+
+            <h2>Freshness Result</h2>
+
+            <p>
+                <strong>Freshness:</strong>
+                {{ freshness_result }}
+            </p>
+
+            <p>
+                <strong>Confidence:</strong>
+                {{ "%.2f"|format(freshness_confidence) }}%
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if error %}
+
+        <p class="error">
+            {{ error }}
+        </p>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
